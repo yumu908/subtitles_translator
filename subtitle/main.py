@@ -1,9 +1,9 @@
 import argparse
 import logging
-from .type import WhisperModelEnum
-from .action import Action
+from subtitle.type import WhisperModelEnum
+from subtitle.action import Action
 
-
+# 命令行参数解析
 def getParser():
     parser = argparse.ArgumentParser(
         description="Generate subtitles of video by whisper transcribe",

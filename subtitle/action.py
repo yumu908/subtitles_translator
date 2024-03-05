@@ -1,11 +1,11 @@
 import logging
-import os.path
+import os
 import time
-from .whisper_model import WhisperModel
+from subtitle.whisper_model import WhisperModel
 from whisper.utils import get_writer
 from whisper.audio import load_audio
 from translatepy import Translate
-from .ffmpeg_utils import add_subtitles
+from subtitle.ffmpeg_utils import add_subtitles
 from pathlib import Path
 
 
@@ -25,6 +25,7 @@ class Action:
 
         logging.info(f"Done Init model in {time.time() - tic:.1f} sec")
 
+    # 音频信息转化为文本字幕
     def transcribe(self):
         for input in self.args.inputs:
             logging.info(f'Translate {input}')
@@ -65,6 +66,7 @@ class Action:
         srt_writer(transcribe_result, srt_file, {"max_line_width": 47, "max_line_count": 1, "highlight_words": False})
         return srt_file
 
+    # 音频信息转化为文本字幕并翻译成指定的语言
     def translate(self):
         for input in self.args.inputs:
             logging.info(f'Translate {input} from {self.lang} to {self.target_lang}')
@@ -91,6 +93,7 @@ class Action:
 
         logging.info(f'Translate for {self.args.inputs} end')
 
+    # 使用translatepy翻译文本信息到指定的语言
     def translateToTargetLang(self, translate_result):
         if not self.args.China and self.args.target_lang is not "en":
             logging.info(f"Translate to {self.args.target_lang} start.")
@@ -107,6 +110,7 @@ class Action:
                     translate_text = segment_text
                 translate_result["segments"][i]["text"] = translate_text
 
+    # 添加字幕信息到视频
     def add_subtitles(self):
 
         # 没有指定字幕文件，先自动生成
@@ -117,6 +121,7 @@ class Action:
 
         self.addSubtitles()
 
+    # 添加字幕信息到视频
     def addSubtitles(self):
         for i in range(len(self.args.inputs)):
 
@@ -148,6 +153,7 @@ class Action:
 
             logging.info(f'Add subtitles for {input} end,output->{output},time->[{time.time() - start_time:.1f}]')
 
+    # 联合操作，先翻译，再添加字幕信息
     def union(self):
         start_time = time.time()
         # translate
@@ -166,6 +172,7 @@ class Action:
 
         logging.info(f'Union operations for Transcribe end')
 
+    # 生成对应的输出目录
     def make_output_dir(self, output_dir, input_dir):
         if output_dir is None:
             output_dir = input_dir

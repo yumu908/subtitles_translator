@@ -1,11 +1,11 @@
 import logging
 import ffmpeg
-import os
 import re
 import sys
 from pathlib import Path
 
 
+# windows电脑ffmpeg命令行兼容
 def escape_windows_path(path):
     # 将单个反斜杠替换为双反斜杠
     sub = re.sub(r'\\', r'\\\\', path)
@@ -20,6 +20,8 @@ def escape_windows_path(path):
 def is_windows():
     return sys.platform.startswith('win')
 
+
+# 通过ffmpeg给视频添加字幕信息
 def add_subtitles(video_file, subtitle_file, output_file):
     # 使用 ffmpeg.input() 来指定输入文件和字幕文件
     input_video = ffmpeg.input(Path(video_file))

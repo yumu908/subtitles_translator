@@ -3,7 +3,7 @@ import os
 import numpy as np
 import ffmpeg
 
-
+# 检查文件是否存在
 def check_exists(output, force):
     if os.path.exists(output):
         if force:
@@ -16,6 +16,7 @@ def check_exists(output, force):
     return False
 
 
+# 使用ffmpeg分离出音频文件
 def load_audio(file: str, sr: int = 16000) -> np.ndarray:
     try:
         out, _ = (

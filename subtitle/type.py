@@ -64,7 +64,7 @@ LANG = Literal[
 ]
 
 
-
+# whisper模型枚举
 class WhisperModelEnum(Enum):
     TINY = "tiny"
     BASE = "base"
@@ -76,4 +76,3 @@ class WhisperModelEnum(Enum):
     @staticmethod
     def get_values():
         return [i.value for i in WhisperModelEnum]
-
